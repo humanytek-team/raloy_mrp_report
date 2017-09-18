@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!--FORMATO DE LA PAGINA DEL REPORTE-->
+        <template id="template_mrp_dilution_homogenization_order" name="style">
+            <t t-call="report.html_container" t-att-style="editable and 'margin-top: 0px;'">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="raloy_mrp_report.dilution_homogenization_layout">
+                        <div class="page" style="font-size: 8pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;">
+                            <table class="table table-bordered" style="border-style:solid;">
+                                <thead>
+                                    <tr>
+                                        <td colspan="14">
+                                            <div class="row">
+                                                <div class="col-xs-3 text-left" style="margin-top:20px;">
+                                                    <b>NAVE:</b> __________
+                                                </div>
+                                                <div class="col-xs-3 text-center" style="margin-top:20px;">
+                                                    <b>REACTOR No.:</b> <u><span t-esc="o._get_workcenter()" /></u>
+                                                </div>
+                                                <div class="col-xs-6 text-right" style="margin-top:20px;">
+                                                    <b>PRODUCTO:</b> <u><span t-field="o.product_id" /></u>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-3 text-left" style="margin-top:20px;">
+                                                    <b>CANTIDAD SOLICITADA:</b> <u><span t-field="o.product_qty" /></u>
+                                                </div>
+                                                <div class="col-xs-3 text-left" style="margin-top:20px;">
+                                                    <b>CANTIDAD PROCESADA:</b> __________
+                                                </div>
+                                                <div class="col-xs-3 text-right" style="margin-top:20px;">
+                                                    <b>TIEMPO TOTAL DE PROCESO:</b> __________
+                                                </div>
+                                                <div class="col-xs-3 text-right" style="margin-top:20px;">
+                                                    <b>No. FORMULA:</b> <u><span t-field="o.bom_id.code" /></u>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center">
+                                    <tr>
+                                        <td rowspan="3"><b>No. DE PARTE</b></td>
+                                        <td rowspan="3"><b>OBLIGATORIO</b></td>
+                                        <td rowspan="3"><b>NOMBRE Y CLAVE DE MATERIA PRIMA</b></td>
+                                        <td rowspan="3"><b>NO. DE LOTE TANQUE</b></td>
+                                        <td colspan="3"><b>TEÓRICO</b></td>
+                                        <td><b>REAL</b></td>
+                                        <td colspan="6"><b>(KG.) LITROS DE AJUSTE</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2"><b>%</b></td>
+                                        <td rowspan="2"><b>LITROS</b></td>
+                                        <td rowspan="2"><b>KILOS</b></td>
+                                        <td rowspan="2"><b>REAL (LTS)</b></td>
+                                        <td colspan="2"><b>1o</b></td>
+                                        <td colspan="2"><b>2o</b></td>
+                                        <td colspan="2"><b>3o</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>TEÓRICO</b></td>
+                                        <td><b>REAL</b></td>
+                                        <td><b>TEÓRICO</b></td>
+                                        <td><b>REAL</b></td>
+                                        <td><b>TEÓRICO</b></td>
+                                        <td><b>REAL</b></td>
+                                    </tr>
+                                    <tr t-foreach="o.bom_id.bom_line_ids" t-as="l" style="border-bottom: 1px solid #ddd;">
+                                        <td>
+                                            <span t-field="l.product_id.default_code" />
+                                        </td>
+                                        <td>
+                                            <input type="checkbox"  style="margin-left:auto; margin-right:auto;"/>
+                                        </td>
+                                        <td>
+                                            [<span t-field="l.product_id.default_code" />]<span t-field="l.product_id.name" />
+                                        </td>
+                                        <td>
+                                            <t t-if="o.bom_id.location_src_id">
+                                                <span t-field="o.bom_id.location_src_id"/>
+                                            </t>
+                                            <t t-if="not o.bom_id.location_src_id">N/D</t>
+                                        </td>
+                                        <td>
+                                            <t t-set="porciento" t-value="o._get_percentage(l_index)[0]" />
+                                            <t t-esc="'%.3f'%(porciento)" />%
+                                        </td>
+                                        <td>
+                                            <!--t t-set="cantidad" t-value="o._get_production_ldm_quantity(l_index)[0]" />
+                                            <t t-esc="'%.3f'%(cantidad)" /-->
+                                        </td>
+                                        <td>
+                                            kgs
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" />
+                                        <td><b>TOTAL</b></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3"><b>CALCULO DLA</b></td>
+                                        <td colspan="5"><b>OPERADOR</b></td>
+                                        <td colspan="6"><b>APROBO</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table width="100%" class="table table-condensed">
+                                <tr>
+                                    <td width="25%">
+                                        <b>¿SE VERIFICO FORMULACION?</b>
+                                    </td>
+                                    <td width="25%">
+                                        SI<input type="checkbox" style="margin-left:auto; margin-right:auto;"/>
+                                        NO<input type="checkbox" style="margin-left:auto; margin-right:auto;"/>
+                                    </td>
+                                    <td width="25%">
+                                        <b>COMENTARIOS:</b>
+                                    </td>
+                                    <td width="25%"  />
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><![CDATA[&nbsp;]]></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>OBSERVACIONES:</b>
+                                    </td>
+                                    <td colspan="3" />
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>INSTRUCTIVO(S):</b>
+                                    </td>
+                                    <td  />
+                                    <td>
+                                        <b>NOTAS:</b>
+                                    </td>
+                                    <td />
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><![CDATA[&nbsp;]]></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        No. de muestra(s) presentada(s) para la evalucación del lote:
+                                    </td>
+                                    <td colspan="2">
+                                        <table class="table table-bordered" style="border-style:solid;">
+                                            <tr>
+                                                <td><![CDATA[&nbsp;]]></td>
+                                                <td><![CDATA[&nbsp;]]></td>
+                                                <td><![CDATA[&nbsp;]]></td>
+                                                <td><![CDATA[&nbsp;]]></td>
+                                                <td><![CDATA[&nbsp;]]></td>
+                                                <td><![CDATA[&nbsp;]]></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="dilution_homogenization_layout">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+
+            <div class="header">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 45px;"/>
+                    </div>
+                    <div class="col-xs-6 text-center" style="margin-top:10px;">
+                        <b>ORDEN DE DILUCIÓN Y HOMOGENEIZACIÓN</b>
+                        <br/>
+                        <b>FECHA </b><u><span t-esc="time.strftime('%d/%m/%Y')"/></u><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                        <b>No. DE LOTE </b> 
+                        <span  t-esc="o._get_lot_number()" />
+                    </div>
+                    <div class="col-xs-3 text-right" style="margin-top:10px;">
+                        <div>
+                            <center><b>No. DE ORDEN </b><br/><span t-field="o.name" /></center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <t t-raw="0" />
+
+            <div class="footer">
+                <div class="row" style="font-size: 8px;">
+                    <div class="col-xs-12 text-right">
+                        <b>CC-003-REV-03</b>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+
+        <report 
+            id="report_mrp_dilution_homogenization_order"
+            string="Orden de dilución y homogeneización"
+            model="mrp.production" 
+            report_type="qweb-pdf"
+            file="raloy_mrp_report.template_mrp_dilution_homogenization_order" 
+            name="raloy_mrp_report.template_mrp_dilution_homogenization_order"
+        />
+
+        <record id="paperformat_report_mrp_dilution_homogenization_order" model="report.paperformat">
+            <field name="name">Orden de dilución y homogeneización</field>
+            <field name="format">custom</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_spacing">15</field>
+            <field name="dpi">90</field>
+            <field name="report_ids" eval="[(4, ref('report_mrp_dilution_homogenization_order'))]"/>
+        </record>
+
+    </data>
+</openerp>
