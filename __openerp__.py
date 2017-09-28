@@ -9,7 +9,7 @@
     """,
     'author': 'Humanytek',
     'website': 'http://www.humanytek.com',
-    'depends': ['mrp'],
+    'depends': ['mrp', 'mrp_default_locations'],
     'data': [
         'report/mrp_dilution_homogenization_order.xml',
     ],
