@@ -78,20 +78,23 @@
                                         </td>
                                         <td>
                                             <t t-if="o.bom_id.location_src_id">
-                                                <span t-field="o.bom_id.location_src_id"/>
+                                                <span t-field="o.bom_id.location_src_id.name"/>
                                             </t>
                                             <t t-if="not o.bom_id.location_src_id">N/D</t>
                                         </td>
                                         <td>
-                                            <t t-set="porciento" t-value="o._get_percentage(l_index)[0]" />
-                                            <t t-esc="'%.3f'%(porciento)" />%
+                                            <!--t t-set="porciento" t-value="o._get_percentage(l_index)[0]" />
+                                            <t t-esc="'%.3f'%(porciento)" /> % -->
+                                            <!--span t-esc="o._get_percentage(l_index)[0]" /-->
+                                            <span t-esc="'%.6f'%(o._get_percentage(l_index)[0])" /> %
                                         </td>
                                         <td>
                                             <!--t t-set="cantidad" t-value="o._get_production_ldm_quantity(l_index)[0]" />
                                             <t t-esc="'%.3f'%(cantidad)" /-->
+                                            <span t-esc="'%.6f'%(o._get_production_ldm_quantity(l_index)[0])" /> lts    
                                         </td>
                                         <td>
-                                            kgs
+                                            <span t-esc="'%.6f'%(o._get_kilos(l_index)[0])" /> kgs
                                         </td>
                                         <td></td>
                                         <td></td>
@@ -105,9 +108,9 @@
                                         <td colspan="2" />
                                         <td><b>TOTAL</b></td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td><b><span t-esc="'%.6f'%(o._get_total_percentage())" /> %</b></td>
+                                        <td><b><span t-esc="'%.6f'%(o._get_total_ldm_quantity())" /> LTS</b></td>
+                                        <td><b><span t-esc="'%.6f'%(o._get_total_kilos())" /> KGS</b></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -119,7 +122,7 @@
                                 </tbody>
                                 <tbody>
                                     <tr>
-                                        <td colspan="3"><b>CALCULO DLA</b></td>
+                                        <td colspan="3"><b>CALCULO DLA: </b><span t-esc="o._get_current_user()"/></td>
                                         <td colspan="5"><b>OPERADOR</b></td>
                                         <td colspan="6"><b>APROBO</b></td>
                                     </tr>
