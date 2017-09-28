@@ -83,14 +83,9 @@
                                             <t t-if="not o.bom_id.location_src_id">N/D</t>
                                         </td>
                                         <td>
-                                            <!--t t-set="porciento" t-value="o._get_percentage(l_index)[0]" />
-                                            <t t-esc="'%.3f'%(porciento)" /> % -->
-                                            <!--span t-esc="o._get_percentage(l_index)[0]" /-->
                                             <span t-esc="'%.6f'%(o._get_percentage(l_index)[0])" /> %
                                         </td>
                                         <td>
-                                            <!--t t-set="cantidad" t-value="o._get_production_ldm_quantity(l_index)[0]" />
-                                            <t t-esc="'%.3f'%(cantidad)" /-->
                                             <span t-esc="'%.6f'%(o._get_production_ldm_quantity(l_index)[0])" /> lts    
                                         </td>
                                         <td>
