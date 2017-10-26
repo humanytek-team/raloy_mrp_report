@@ -55,59 +55,77 @@ class mrp_production(models.Model):
 	def _get_current_user(self):
 		return self.user_id.name
 
-	@api.one
-	def _get_kilos(self, line):
-		value = 0.0
-		if not self.move_raw_ids:
-			return value
-		else:
-			value = self.move_raw_ids[line].kilos
-			return value
+	# @api.one
+	# def _get_kilos(self, line):
+	# 	value = 0.0
+	# 	if not self.move_raw_ids:
+	# 		return value
+	# 	else:
+	# 		value = self.move_raw_ids[line].kilos
+	# 		return value
 			
-	@api.one
-	def _get_percentage(self,line):
-		value = 0.0
-		if not self.move_raw_ids:
-			return value
-		else:
-			value = self.move_raw_ids[line].porcentaje
-			return value
+	# @api.one
+	# def _get_percentage(self,line):
+	# 	value = 0.0
+	# 	if not self.move_raw_ids:
+	# 		return value
+	# 	else:
+	# 		value = self.move_raw_ids[line].porcentaje
+	# 		return value
 
-	@api.one
-	def _get_production_ldm_quantity(self,line):
-		value = 0.0
-		if not self.move_raw_ids:
-			return value
-		else:
-			value = self.move_raw_ids[line].product_uom_qty
-			return value
+	# @api.one
+	# def _get_production_ldm_quantity(self,line):
+	# 	value = 0.0
+	# 	if not self.move_raw_ids:
+	# 		return value
+	# 	else:
+	# 		value = self.move_raw_ids[line].product_uom_qty
+	# 		return value
+
+
+	# @api.multi
+	# def _get_total_ldm_quantity(self):
+	# 	value = 0.0
+	# 	if not self.move_raw_ids:
+	# 		return value
+	# 	else:
+	# 		for rec in self.move_raw_ids:
+	# 			value += rec.product_uom_qty
+	# 		return value
+
+	# @api.multi
+	# def _get_total_percentage(self):
+	# 	value = 0.0
+	# 	if not self.move_raw_ids:
+	# 		return value
+	# 	else:
+	# 		for rec in self.move_raw_ids:
+	# 			value += rec.porcentaje
+	# 		return value
+
+	# @api.multi
+	# def _get_total_kilos(self):
+	# 	value = 0.0
+	# 	if not self.move_raw_ids:
+	# 		return value
+	# 	else:
+	# 		for rec in self.move_raw_ids:
+	# 			value += rec.kilos
+	# 		return value
 
 	@api.multi
-	def _get_total_ldm_quantity(self):
+	def _get_totales(self, field):
 		value = 0.0
 		if not self.move_raw_ids:
 			return value
 		else:
-			for rec in self.move_raw_ids:
-				value += rec.product_uom_qty
-			return value
-
-	@api.multi
-	def _get_total_percentage(self):
-		value = 0.0
-		if not self.move_raw_ids:
-			return value
-		else:
-			for rec in self.move_raw_ids:
-				value += rec.porcentaje
-			return value
-
-	@api.multi
-	def _get_total_kilos(self):
-		value = 0.0
-		if not self.move_raw_ids:
-			return value
-		else:
-			for rec in self.move_raw_ids:
-				value += rec.kilos
-			return value
+			if field == 'porcentaje':
+				for rec in self.move_raw_ids:
+					value += rec.porcentaje
+			elif field == 'product_uom_qty':
+				for rec in self.move_raw_ids:
+					value += rec.product_uom_qty
+			else:
+				for rec in self.move_raw_ids:
+					value += rec.kilos
+		return value
