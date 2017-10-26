@@ -66,12 +66,17 @@
                                         <td><b>TEÓRICO</b></td>
                                         <td><b>REAL</b></td>
                                     </tr>
-                                    <tr t-foreach="o.bom_id.bom_line_ids" t-as="l" style="border-bottom: 1px solid #ddd;">
+                                    <!--tr t-foreach="o.bom_id.bom_line_ids" t-as="l" style="border-bottom: 1px solid #ddd;">
                                         <td>
                                             <span t-field="l.product_id.default_code" />
                                         </td>
                                         <td>
-                                            <input type="checkbox"  style="margin-left:auto; margin-right:auto;"/>
+                                            <t t-if="l.obligatorio == true">
+                                                <input type="checkbox" checked="checked" style="margin-left:auto; margin-right:auto;"/>
+                                            </t>
+                                            <t t-if="l.obligatorio == false">
+                                                <input type="checkbox"  style="margin-left:auto; margin-right:auto;"/>
+                                            </t>
                                         </td>
                                         <td>
                                             [<span t-field="l.product_id.default_code" />]<span t-field="l.product_id.name" />
@@ -98,14 +103,60 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                    </tr-->
+                                    <tr t-foreach="o.move_raw_ids" t-as="l" style="border-bottom: 1px solid #ddd;">
+                                        <t t-if="l.product_uom_qty>0">
+                                            <td>
+                                                <span t-field="l.product_id.default_code" />
+                                            </td>
+                                            <td>
+                                                <t t-if="l.obligatorio == true">
+                                                    <input type="checkbox" checked="checked" style="margin-left:auto; margin-right:auto;"/>
+                                                </t>
+                                                <t t-if="l.obligatorio == false">
+                                                    <input type="checkbox"  style="margin-left:auto; margin-right:auto;"/>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                [<span t-field="l.product_id.default_code" />]<span t-field="l.product_id.name" />
+                                            </td>
+                                            <td>
+                                                <t t-if="o.bom_id.location_src_id">
+                                                    <span t-field="o.bom_id.location_src_id.name"/>
+                                                </t>
+                                                <t t-if="not o.bom_id.location_src_id">N/D</t>
+                                            </td>
+                                            <td>
+                                                <!--span t-esc="'%.6f'%(o._get_percentage(l_index)[0])" /> % -->
+                                                <span t-esc="'%.6f'%(l.porcentaje)" /> %
+                                            </td>
+                                            <td>
+                                                <!--span t-esc="'%.6f'%(o._get_production_ldm_quantity(l_index)[0])" /> lts  -->
+                                                <span t-esc="'%.6f'%(l.product_uom_qty)" /> lts  
+                                            </td>
+                                            <td>
+                                                <!--span t-esc="'%.6f'%(o._get_kilos(l_index)[0])" /> kgs -->
+                                                <span t-esc="'%.6f'%(l.kilos)" /> kgs                                           
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </t>
                                     </tr>
                                     <tr>
                                         <td colspan="2" />
                                         <td><b>TOTAL</b></td>
                                         <td></td>
-                                        <td><b><span t-esc="'%.6f'%(o._get_total_percentage())" /> %</b></td>
+                                        <!--td><b><span t-esc="'%.6f'%(o._get_total_percentage())" /> %</b></td>
                                         <td><b><span t-esc="'%.6f'%(o._get_total_ldm_quantity())" /> LTS</b></td>
-                                        <td><b><span t-esc="'%.6f'%(o._get_total_kilos())" /> KGS</b></td>
+                                        <td><b><span t-esc="'%.6f'%(o._get_total_kilos())" /> KGS</b></td-->
+                                        <td><b><span t-esc="'%.6f'%(o._get_totales('porcentaje'))" /> %</b></td>
+                                        <td><b><span t-esc="'%.6f'%(o._get_totales('product_uom_qty'))" /> LTS</b></td>
+                                        <td><b><span t-esc="'%.6f'%(o._get_totales('kilos'))" /> KGS</b></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -117,7 +168,7 @@
                                 </tbody>
                                 <tbody>
                                     <tr>
-                                        <td colspan="3"><b>CALCULO DLA: </b><span t-esc="o._get_current_user()"/></td>
+                                        <td colspan="3"><b>CALCULO: </b><span t-esc="o._get_current_user()"/></td>
                                         <td colspan="5"><b>OPERADOR</b></td>
                                         <td colspan="6"><b>APROBO</b></td>
                                     </tr>
